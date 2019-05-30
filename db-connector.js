@@ -1,12 +1,27 @@
-const fastifyPlugin = require('fastify-plugin')
-const MongoClient = require('mongodb').MongoClient
+const fastifyPlugin = require('fastify-plugin');
+// const MongoClient = require('mongodb').MongoClient;
+const Sequelize = require('sequelize');
 
 async function dbConnector(fastify, options) {
-    const url = options.url
-    delete options.url
+    try {
+        const url = options.url;
+        delete options.url;
 
-    const db = await MongoClient.connect(url,{ useNewUrlParser: true }, options)
-    fastify.decorate('mongo', db)
+        const db = await new Sequelize('postgres', 'postgres', '1430666', {
+            host: 'localhost',
+            dialect: 'postgres',
+            define: {
+                timestamps: false
+            }
+        });
+
+        fastify.decorate('sequelize', db);
+        // const db = await MongoClient.connect(url, {useNewUrlParser: true}, options);
+        // fastify.decorate('mongo', db);
+    } catch (e) {
+        fastify.log.error(e);
+        throw new Error(e);
+    }
 }
 
 // Wrapping a plugin function with fastify-plugin exposes the decorators,
