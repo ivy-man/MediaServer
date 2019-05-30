@@ -1,5 +1,4 @@
 const fastifyPlugin = require('fastify-plugin');
-// const MongoClient = require('mongodb').MongoClient;
 const Sequelize = require('sequelize');
 
 async function dbConnector(fastify, options) {
@@ -16,8 +15,7 @@ async function dbConnector(fastify, options) {
         });
 
         fastify.decorate('sequelize', db);
-        // const db = await MongoClient.connect(url, {useNewUrlParser: true}, options);
-        // fastify.decorate('mongo', db);
+      
     } catch (e) {
         fastify.log.error(e);
         throw new Error(e);

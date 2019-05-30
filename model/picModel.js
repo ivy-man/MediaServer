@@ -5,8 +5,8 @@ module.exports = class Pic extends Sequelize.Model {
         return super.init({
             url: Sequelize.STRING,
             owner: Sequelize.INTEGER,
-            // createdAt: Sequelize.DATE,
-            // updatedAt: Sequelize.DATE
+            createdAt: Sequelize.DATE,
+            // updatedAt: Sequelize.DATE 
         }, {sequelize, modelName: 'pics'});
     };
 };
