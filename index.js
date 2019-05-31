@@ -16,6 +16,7 @@ fastify.register(require('./db-connector'), {
 //   });
 // });
 
+fastify.register(require('fastify-formbody'));
 fastify.register(require('fastify-multipart'));
 
 fastify.register(fastifyPlugin(handlers));

@@ -58,30 +58,53 @@ module.exports = async (fastify) => {
           const filePath = `${getDirImage()}/${filename}`;
           if (fs.existsSync(filePath)) { filename = `${Date.now()}-${filename}`; }
 
-          let write = fs.createWriteStream(`${dir}/${filename}`);
+          const write = fs.createWriteStream(`${dir}/${filename}`);
           pump(file, write);
 
-          write.on('end', () => {
-              let images = imageResize(dir, filename);
-          });
+          write.on('close', () => {
+            console.log('here');
+            fastify.sequelize.sync()
+              .then(() => Pic.create({
+                url: `${dir}/${filename}`,
+                owner: 1,
+                createdAt: new Date(),
 
-          fastify.sequelize.sync()
-            .then(() => Pic.create({
-              url: `${dir}/${filename}`,
-              owner: 1,
-              createdAt: new Date(),
-              // updatedAt: new Date()
-            }))
-            .then(() => {
-              res.code(200).send({ message: 'file uploaded' });
-            });
-          // .catch(() => {
-          //   fs.unlinkSync(req.file.path, (err) => {
-          //     return this.back(req, res);
-          //   });
-          // });
+                // updatedAt: new Date()
+              }))
+              .then(() => {
+                const images = imageResize(dir, filename);
+                res.code(200).send({ message: 'file uploaded' });
+              })
+              .catch(() => {
+                fs.unlinkSync(`${dir}/${filename}`);
+              });
+          });
         });
       }
+    },
+    deleteHandler: async (req, res) => {
+      fastify.sequelize.sync()
+        .then(() => Pic.findOne({
+          where: { id: req.body.id },
+        }))
+        .then((result) => {
+          if (result) {
+            fs.unlinkSync(result.dataValues.url);
+            fastify.sequelize.sync()
+              .then(() => Pic.destroy({
+                where: { id: req.body.id },
+              }))
+              .then(deleteResult => res.status(200).send({
+                success: 'true',
+                message: deleteResult,
+              }));
+          } else {
+            res.status(403).send({
+              success: 'false',
+              message: 'not found',
+            });
+          }
+        });
     },
   };
 
