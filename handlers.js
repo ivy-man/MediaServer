@@ -58,10 +58,12 @@ module.exports = async (fastify) => {
           const filePath = `${getDirImage()}/${filename}`;
           if (fs.existsSync(filePath)) { filename = `${Date.now()}-${filename}`; }
 
-          pump(file, fs.createWriteStream(`${dir}/${filename}`));
-          setTimeout(() => {
-            imageResize(dir, filename);
-          }, 2000);
+          let write = fs.createWriteStream(`${dir}/${filename}`);
+          pump(file, write);
+
+          write.on('end', () => {
+              let images = imageResize(dir, filename);
+          });
 
           fastify.sequelize.sync()
             .then(() => Pic.create({
