@@ -5,6 +5,7 @@ const mkdirp = require('mkdirp');
 const sharp = require('sharp');
 const path = require('path');
 const picModel = require('./model/picModel');
+const uuidv1 = require('uuid/v1');
 
 function getDirImage() {
   const year = new Date().getFullYear();
@@ -68,6 +69,7 @@ module.exports = async (fastify) => {
                 url: `${dir}/${filename}`,
                 owner: 1,
                 createdAt: new Date(),
+                imageID: uuidv1()
 
                 // updatedAt: new Date()
               }))
@@ -75,7 +77,8 @@ module.exports = async (fastify) => {
                 const images = imageResize(dir, filename);
                 res.code(200).send({ message: 'file uploaded' });
               })
-              .catch(() => {
+              .catch((e) => {
+                console.log(e)
                 fs.unlinkSync(`${dir}/${filename}`);
               });
           });
@@ -106,6 +109,25 @@ module.exports = async (fastify) => {
           }
         });
     },
+    downloadHandler: async (req, res) => {
+      // res.sendFile('/images/2019/6/6/fantastic-fairy.jpg');
+
+      fastify.sequelize.sync()
+        .then(() => Pic.findOne({
+          where: { imageID: req.body.imageID },
+        }))
+        .then((result) => {
+          if (result) {
+            console.log(result.dataValues.url.substring(8))
+            res.sendFile(result.dataValues.url.substring(8));
+          } else {
+            res.status(403).send({
+              success: 'false',
+              message: 'not found',
+            });
+          }
+        });
+    }
   };
 
   fastify.decorate('uploadHandlers', uploadHandlers);

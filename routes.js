@@ -9,4 +9,7 @@ module.exports = async (fastify, options) => {
   fastify.post('/upload/images', uploadHandlers.imageHandler);
 
   fastify.delete('/delete/images', uploadHandlers.deleteHandler);
+
+  fastify.post('/get/images', uploadHandlers.downloadHandler);
+
 };
