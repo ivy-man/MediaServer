@@ -2,10 +2,6 @@
 module.exports = async (fastify, options) => {
   const { uploadHandlers } = fastify;
 
-  fastify.get('/eli', async (request, reply) => {
-    reply.send({ hello: 'world' });
-  });
-
   fastify.post('/upload/images', uploadHandlers.imageHandler);
 
   fastify.delete('/delete/images', uploadHandlers.deleteHandler);

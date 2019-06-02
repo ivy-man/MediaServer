@@ -10,7 +10,7 @@ const uuidv1 = require('uuid/v1');
 function getDirImage() {
   const year = new Date().getFullYear();
   const month = new Date().getMonth() + 1;
-  const day = new Date().getDay();
+  const day = new Date().getDate();
 
   return `uploads/images/${year}/${month}/${day}`;
 }
@@ -40,62 +40,60 @@ module.exports = async (fastify) => {
 
   const uploadHandlers = {
     imageHandler: async (req, res) => {
-      // console.log(req);
       const mp = req.multipart(handler, (err) => {
         if (err) throw new Error(err);
       });
-
-      mp.on('field', (key, value) => {
-        // eslint-disable-next-line no-console
-        console.log('form-data', key, value);
-      });
-
       // eslint-disable-next-line no-unused-vars
       function handler(field, file, filename, encoding, mimetype) {
-        const dir = getDirImage();
-        mkdirp(dir, (err) => {
-          if (err) throw new Error(err);
+        file.on('limit', () => console.log('File size limit reached'));
+        mp.on('field', (key, value) => {
+          // eslint-disable-next-line no-console
+          console.log('form-data', key, value);
+          if (key == 'ownerResourceUUID')
+            var ownerResourceUUID = value
+          const dir = getDirImage();
+          mkdirp(dir, (err) => {
+            if (err) throw new Error(err);
 
-          const filePath = `${getDirImage()}/${filename}`;
-          if (fs.existsSync(filePath)) { filename = `${Date.now()}-${filename}`; }
+            const filePath = `${getDirImage()}/${filename}`;
+            if (fs.existsSync(filePath)) { filename = `${Date.now()}-${filename}`; }
 
-          const write = fs.createWriteStream(`${dir}/${filename}`);
-          pump(file, write);
+            const write = fs.createWriteStream(`${dir}/${filename}`);
+            pump(file, write);
 
-          write.on('close', () => {
-            console.log('here');
-            fastify.sequelize.sync()
-              .then(() => Pic.create({
-                url: `${dir}/${filename}`,
-                owner: 1,
-                createdAt: new Date(),
-                imageID: uuidv1()
-
-                // updatedAt: new Date()
-              }))
-              .then(() => {
-                const images = imageResize(dir, filename);
-                res.code(200).send({ message: 'file uploaded' });
-              })
-              .catch((e) => {
-                console.log(e)
-                fs.unlinkSync(`${dir}/${filename}`);
-              });
+            write.on('close', () => {
+              fastify.sequelize.sync()
+                .then(() => Pic.create({
+                  url: `${dir}/${filename}`.substring(8),
+                  owner: 1,
+                  ownerResourceUUID: ownerResourceUUID,
+                  createdAt: new Date(),
+                  imageID: uuidv1()
+                }))
+                .then(() => {
+                  const images = imageResize(dir, filename);
+                  res.code(200).send({ message: 'file uploaded' });
+                })
+                .catch((e) => {
+                  fs.unlinkSync(`${dir}/${filename}`);
+                });
+            });
           });
         });
       }
     },
     deleteHandler: async (req, res) => {
+      console.log('hi')
       fastify.sequelize.sync()
         .then(() => Pic.findOne({
-          where: { id: req.body.id },
+          where: { imageID: req.body.imageID },
         }))
         .then((result) => {
           if (result) {
-            fs.unlinkSync(result.dataValues.url);
+            fs.unlinkSync(`uploads/${result.dataValues.url}`);
             fastify.sequelize.sync()
               .then(() => Pic.destroy({
-                where: { id: req.body.id },
+                where: { imageID: req.body.imageID },
               }))
               .then(deleteResult => res.status(200).send({
                 success: 'true',
@@ -110,16 +108,13 @@ module.exports = async (fastify) => {
         });
     },
     downloadHandler: async (req, res) => {
-      // res.sendFile('/images/2019/6/6/fantastic-fairy.jpg');
-
       fastify.sequelize.sync()
         .then(() => Pic.findOne({
           where: { imageID: req.body.imageID },
         }))
         .then((result) => {
           if (result) {
-            console.log(result.dataValues.url.substring(8))
-            res.sendFile(result.dataValues.url.substring(8));
+            res.sendFile(result.dataValues.url);
           } else {
             res.status(403).send({
               success: 'false',
