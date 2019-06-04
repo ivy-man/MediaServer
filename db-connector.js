@@ -3,9 +3,7 @@ const Sequelize = require('sequelize');
 
 async function dbConnector(fastify, options) {
   try {
-    const {url} = options;
     delete options.url;
-
     const db = await new Sequelize('postgres', 'postgres', '1430666', {
       host: 'localhost',
       dialect: 'postgres',
