@@ -54,8 +54,13 @@ module.exports = async (fastify) => {
             const mp = req.multipart(handler, done, (err) => {
                 if (err) throw new Error(err);
             });
+            if (!mp) res.code(422).send('No file to upload!');
 
             function done() {
+                if (!input.ownerResourceUUID) {
+                    res.code(422).send('Unprocessable Entity!');
+                    return;
+                }
                 fastify.sequelize.sync()
                     .then(() => Pic.create({
                         url: `${imagePath}/${imageName}`.substring(8),
