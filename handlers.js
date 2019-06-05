@@ -55,6 +55,31 @@ function newImageResize(dir, width, height) {
         imageAddress = `${imageInfo.dir}/${imageName}`;
         sharp(filePath)
           .resize(width, null)
+          .resize(null, height)
+          .toFile(`uploads/${imageAddress}`)
+          .catch((e) => {
+            reject(e);
+          });
+      };
+      resize();
+      resolve(`${imageAddress}`);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+function imageCompress(dir, den, dep) {
+  return new Promise((resolve, reject) => {
+    try {
+      const imageInfo = path.parse(`${dir}`);
+      const filePath = (`uploads/${dir}`);
+      let imageAddress;
+      const resize = () => {
+        const imageName = `${imageInfo.name}-${den}*${dep}.png`;
+        imageAddress = `${imageInfo.dir}/${imageName}`;
+        sharp(filePath, { density: 20 })
+          .png({ quality: 100, compressionLevel: 9 })
           .toFile(`uploads/${imageAddress}`)
           .catch((e) => {
             reject(e);
@@ -166,7 +191,7 @@ module.exports = async (fastify) => {
         res.code(500).send('internal server error');
       }
     },
-    downloadResorceHandler: async (req, res) => {
+    getResorceHandler: async (req, res) => {
       try {
         fastify.sequelize.sync()
           .then(() => Pic.findAll({
@@ -214,14 +239,36 @@ module.exports = async (fastify) => {
                 res.sendFile(`${resize}`);
               }, 1000);
               setTimeout(() => {
-                fs.unlinkSync(`uploads/${resize}`);
+                // fs.unlinkSync(`uploads/${resize}`);
               }, 2000);
             } else {
               res.code(403).send('not found');
             }
           });
       } catch (e) {
-        console.log(e);
+        res.code(500).send('internal server error');
+      }
+    },
+    imageCompressHandler: async (req, res) => {
+      try {
+        fastify.sequelize.sync()
+          .then(() => Pic.findOne({
+            where: { imageID: req.query.imageID },
+          }))
+          .then(async (result) => {
+            if (result) {
+              const resize = await imageCompress(`${result.dataValues.url}`, parseInt(req.query.density, 10), parseInt(req.query.depth, 10));
+              setTimeout(() => {
+                res.sendFile(`${resize}`);
+              }, 1000);
+              setTimeout(() => {
+                // fs.unlinkSync(`uploads/${resize}`);
+              }, 2000);
+            } else {
+              res.code(403).send('not found');
+            }
+          });
+      } catch (e) {
         res.code(500).send('internal server error');
       }
     },
