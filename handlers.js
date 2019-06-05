@@ -15,29 +15,53 @@ function getDirImage() {
   return `uploads/images/${year}/${month}/${day}`;
 }
 
-function imageResize(dir, filename) {
+// function imageResize(dir, filename) {
+//   return new Promise((resolve, reject) => {
+//     try {
+//       const imageInfo = path.parse(`${dir}/${filename}`);
+//       const filePath = (`${dir}/${filename}`);
+//       const addressImages = {};
+//       addressImages.original = `${dir}/${filename}`;
+
+//       const resize = (size) => {
+//         const imageName = `${imageInfo.name}-${size}${imageInfo.ext}`;
+//         addressImages[size] = `${dir}/${imageName}`;
+
+//         sharp(filePath)
+//           .resize(size, null)
+//           .toFile(`${dir}/${imageName}`)
+//           .catch((e) => {
+//             reject(e);
+//           });
+//       };
+
+//       [1080, 720, 480].map(resize);
+
+//       resolve(addressImages);
+//     } catch (e) {
+//       reject(e);
+//     }
+//   });
+// }
+
+function newImageResize(dir, width, height) {
   return new Promise((resolve, reject) => {
     try {
-      const imageInfo = path.parse(`${dir}/${filename}`);
-      const filePath = (`${dir}/${filename}`);
-      const addressImages = {};
-      addressImages.original = `${dir}/${filename}`;
-
-      const resize = (size) => {
-        const imageName = `${imageInfo.name}-${size}${imageInfo.ext}`;
-        addressImages[size] = `${dir}/${imageName}`;
-
+      const imageInfo = path.parse(`${dir}`);
+      const filePath = (`uploads/${dir}`);
+      let imageAddress;
+      const resize = () => {
+        const imageName = `${imageInfo.name}-${width}${imageInfo.ext}`;
+        imageAddress = `${imageInfo.dir}/${imageName}`;
         sharp(filePath)
-          .resize(size, null)
-          .toFile(`${dir}/${imageName}`)
+          .resize(width, null)
+          .toFile(`uploads/${imageAddress}`)
           .catch((e) => {
             reject(e);
           });
       };
-
-      [1080, 720, 480].map(resize);
-
-      resolve(addressImages);
+      resize();
+      resolve(`${imageAddress}`);
     } catch (e) {
       reject(e);
     }
@@ -71,7 +95,6 @@ module.exports = async (fastify) => {
             imageID: uuidv1(),
             createdAt: new Date(),
           }))
-          .then(() => imageResize(imagePath, imageName))
           .then(() => {
             res.code(200).send({ message: 'file uploaded' });
           })
@@ -160,7 +183,7 @@ module.exports = async (fastify) => {
         res.code(500).send('internal server error');
       }
     },
-    specificationsHandlre: async (req, res) => {
+    specificationsHandler: async (req, res) => {
       try {
         fastify.sequelize.sync()
           .then(() => Pic.findOne({
@@ -174,6 +197,31 @@ module.exports = async (fastify) => {
             }
           });
       } catch (e) {
+        res.code(500).send('internal server error');
+      }
+    },
+    imageResizeHandler: async (req, res) => {
+      try {
+        fastify.sequelize.sync()
+          .then(() => Pic.findOne({
+            where: { imageID: req.query.imageID },
+          }))
+          .then(async (result) => {
+            if (result) {
+              const splitSize = (req.query.size).split('*');
+              const resize = await newImageResize(`${result.dataValues.url}`, parseInt(splitSize[0], 10), parseInt(splitSize[1], 10));
+              setTimeout(() => {
+                res.sendFile(`${resize}`);
+              }, 1000);
+              setTimeout(() => {
+                fs.unlinkSync(`uploads/${resize}`);
+              }, 2000);
+            } else {
+              res.code(403).send('not found');
+            }
+          });
+      } catch (e) {
+        console.log(e);
         res.code(500).send('internal server error');
       }
     },

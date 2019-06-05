@@ -10,5 +10,7 @@ module.exports = async (fastify, options) => {
 
   fastify.post('/get/ownerResource/images', uploadHandlers.downloadResorceHandler);
 
-  fastify.post('/get/image/specifications', uploadHandlers.specificationsHandlre);
+  fastify.post('/get/image/specifications', uploadHandlers.specificationsHandler);
+
+  fastify.post('/get/image/resize', uploadHandlers.imageResizeHandler);
 };
