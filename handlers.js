@@ -49,24 +49,32 @@ function newImageResize(dir, width, height) {
     try {
       const imageInfo = path.parse(`${dir}`);
       const filePath = (`uploads/${dir}`);
-      let imageAddress;
-      const resize = () => {
-        const imageName = `${imageInfo.name}-${width}${imageInfo.ext}`;
-        imageAddress = `${imageInfo.dir}/${imageName}`;
-        sharp(filePath)
-          .resize(width, null)
-          .resize(null, height)
-          .toFile(`uploads/${imageAddress}`)
-          .catch((e) => {
-            reject(e);
-          });
-      };
-      resize();
-      resolve(`${imageAddress}`);
+        resolve(doImageResize(({imageInfo, filePath, width, height})));
     } catch (e) {
       reject(e);
     }
   });
+}
+
+function doImageResize({imageInfo, filePath, width, height}){
+  return new Promise((resolve, reject)=>{
+    const imageName = `${imageInfo.name}-${width}${imageInfo.ext}`;
+    const imageAddress = `${imageInfo.dir}/${imageName}`;
+    const image = sharp(filePath)
+    image
+      .metadata()
+      .then((metadata)=>{
+        const ratio = metadata.width / metadata.height;
+        if (height) width = height ? Math.floor(ratio * height) : width;
+        else height = width ? Math.floor(ratio * width) : height;
+
+        image.resize(width, height)
+            .toFile(`uploads/${imageAddress}`)
+            .then(()=>{resolve(imageAddress);})
+            .catch((e) => {throw e;});
+      })
+      .catch((e) => {reject(e);});
+  })
 }
 
 function imageCompress(dir, den, dep) {
@@ -74,23 +82,23 @@ function imageCompress(dir, den, dep) {
     try {
       const imageInfo = path.parse(`${dir}`);
       const filePath = (`uploads/${dir}`);
-      let imageAddress;
-      const resize = () => {
-        const imageName = `${imageInfo.name}-${den}*${dep}.png`;
-        imageAddress = `${imageInfo.dir}/${imageName}`;
-        sharp(filePath, { density: 20 })
-          .png({ quality: 100, compressionLevel: 9 })
-          .toFile(`uploads/${imageAddress}`)
-          .catch((e) => {
-            reject(e);
-          });
-      };
-      resize();
-      resolve(`${imageAddress}`);
+      resolve(doImageCompress({imageInfo, filePath, den, dep}));
     } catch (e) {
       reject(e);
     }
   });
+}
+
+function doImageCompress({imageInfo, filePath, den, dep}) {
+  return new Promise((resolve, reject)=>{
+    const imageName = `${imageInfo.name}-${den}-${dep}.WebP`;
+    const imageAddress = `${imageInfo.dir}/${imageName}`;
+    sharp(filePath, { density: 20 })
+        .webp({ nearLossless : true })
+        .toFile(`uploads/${imageAddress}`)
+        .then(()=>{resolve(imageAddress);})
+        .catch((e) => {reject(e);});
+  })
 }
 
 module.exports = async (fastify) => {
@@ -235,11 +243,9 @@ module.exports = async (fastify) => {
             if (result) {
               const splitSize = (req.query.size).split('*');
               const resize = await newImageResize(`${result.dataValues.url}`, parseInt(splitSize[0], 10), parseInt(splitSize[1], 10));
+              res.sendFile(`${resize}`);
               setTimeout(() => {
-                res.sendFile(`${resize}`);
-              }, 1000);
-              setTimeout(() => {
-                // fs.unlinkSync(`uploads/${resize}`);
+                fs.unlinkSync(`uploads/${resize}`);
               }, 2000);
             } else {
               res.code(403).send('not found');
@@ -258,11 +264,9 @@ module.exports = async (fastify) => {
           .then(async (result) => {
             if (result) {
               const resize = await imageCompress(`${result.dataValues.url}`, parseInt(req.query.density, 10), parseInt(req.query.depth, 10));
+              res.sendFile(`${resize}`);
               setTimeout(() => {
-                res.sendFile(`${resize}`);
-              }, 1000);
-              setTimeout(() => {
-                // fs.unlinkSync(`uploads/${resize}`);
+                fs.unlinkSync(`uploads/${resize}`);
               }, 2000);
             } else {
               res.code(403).send('not found');
