@@ -135,7 +135,7 @@ module.exports = async (fastify) => {
 
       // eslint-disable-next-line no-unused-vars
       function handler(field, file, filename, encoding, mimetype) {
-        // file.on('limit', () => console.log('File size limit reached'));
+        file.on('limit', () => console.log('File size limit reached'));
 
         const dir = getDirImage();
         mkdirp(dir, (err) => {
