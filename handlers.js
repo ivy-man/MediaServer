@@ -143,7 +143,7 @@ module.exports = async (fastify) => {
 
       // eslint-disable-next-line no-unused-vars
       function handler(field, file, filename, encoding, mimetype) {
-        // file.on('limit', () => console.log('File size limit reached'));
+        file.on('limit', () => console.log('File size limit reached'));
 
         const dir = getDirImage();
         mkdirp(dir, (err) => {
@@ -162,10 +162,9 @@ module.exports = async (fastify) => {
     },
     deleteHandler: async (req, res) => {
       try {
+        const { imageID } = req.body;
         fastify.sequelize.sync()
-          .then(() => Pic.findOne({
-            where: { imageID: req.body.imageID },
-          }))
+          .then(() => Pic.findByPk(imageID))
           .then((result) => {
             if (result) {
               fs.unlinkSync(`uploads/${result.dataValues.url}`);
@@ -218,10 +217,9 @@ module.exports = async (fastify) => {
     },
     specificationsHandler: async (req, res) => {
       try {
+        const { imageID } = req.body;
         fastify.sequelize.sync()
-          .then(() => Pic.findOne({
-            where: { imageID: req.body.imageID },
-          }))
+          .then(() => Pic.findByPk(imageID))
           .then((result) => {
             if (result) {
               res.code(200).send(result.dataValues);
