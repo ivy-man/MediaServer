@@ -49,32 +49,36 @@ function newImageResize(dir, width, height) {
     try {
       const imageInfo = path.parse(`${dir}`);
       const filePath = (`uploads/${dir}`);
-        resolve(doImageResize(({imageInfo, filePath, width, height})));
+      resolve(doImageResize(({
+        imageInfo, filePath, width, height,
+      })));
     } catch (e) {
       reject(e);
     }
   });
 }
 
-function doImageResize({imageInfo, filePath, width, height}){
-  return new Promise((resolve, reject)=>{
+function doImageResize({
+  imageInfo, filePath, width, height,
+}) {
+  return new Promise((resolve, reject) => {
     const imageName = `${imageInfo.name}-${width}${imageInfo.ext}`;
     const imageAddress = `${imageInfo.dir}/${imageName}`;
-    const image = sharp(filePath)
+    const image = sharp(filePath);
     image
       .metadata()
-      .then((metadata)=>{
+      .then((metadata) => {
         const ratio = metadata.width / metadata.height;
         if (height) width = height ? Math.floor(ratio * height) : width;
         else height = width ? Math.floor(ratio * width) : height;
 
         image.resize(width, height)
-            .toFile(`uploads/${imageAddress}`)
-            .then(()=>{resolve(imageAddress);})
-            .catch((e) => {throw e;});
+          .toFile(`uploads/${imageAddress}`)
+          .then(() => { resolve(imageAddress); })
+          .catch((e) => { throw e; });
       })
-      .catch((e) => {reject(e);});
-  })
+      .catch((e) => { reject(e); });
+  });
 }
 
 function imageCompress(dir, den, dep) {
@@ -82,23 +86,27 @@ function imageCompress(dir, den, dep) {
     try {
       const imageInfo = path.parse(`${dir}`);
       const filePath = (`uploads/${dir}`);
-      resolve(doImageCompress({imageInfo, filePath, den, dep}));
+      resolve(doImageCompress({
+        imageInfo, filePath, den, dep,
+      }));
     } catch (e) {
       reject(e);
     }
   });
 }
 
-function doImageCompress({imageInfo, filePath, den, dep}) {
-  return new Promise((resolve, reject)=>{
+function doImageCompress({
+  imageInfo, filePath, den, dep,
+}) {
+  return new Promise((resolve, reject) => {
     const imageName = `${imageInfo.name}-${den}-${dep}.WebP`;
     const imageAddress = `${imageInfo.dir}/${imageName}`;
     sharp(filePath, { density: 20 })
-        .webp({ nearLossless : true })
-        .toFile(`uploads/${imageAddress}`)
-        .then(()=>{resolve(imageAddress);})
-        .catch((e) => {reject(e);});
-  })
+      .webp({ nearLossless: true })
+      .toFile(`uploads/${imageAddress}`)
+      .then(() => { resolve(imageAddress); })
+      .catch((e) => { reject(e); });
+  });
 }
 
 module.exports = async (fastify) => {
@@ -233,10 +241,9 @@ module.exports = async (fastify) => {
     },
     imageResizeHandler: async (req, res) => {
       try {
+        const { imageID } = req.query;
         fastify.sequelize.sync()
-          .then(() => Pic.findOne({
-            where: { imageID: req.query.imageID },
-          }))
+          .then(() => Pic.findByPk(imageID))
           .then(async (result) => {
             if (result) {
               const splitSize = (req.query.size).split('*');
@@ -255,10 +262,9 @@ module.exports = async (fastify) => {
     },
     imageCompressHandler: async (req, res) => {
       try {
+        const { imageID } = req.query;
         fastify.sequelize.sync()
-          .then(() => Pic.findOne({
-            where: { imageID: req.query.imageID },
-          }))
+          .then(() => Pic.findByPk(imageID))
           .then(async (result) => {
             if (result) {
               const resize = await imageCompress(`${result.dataValues.url}`, parseInt(req.query.density, 10), parseInt(req.query.depth, 10));
