@@ -251,7 +251,11 @@ module.exports = async (fastify) => {
         const { imageID } = req.query;
         const result = Pic.findByPk(imageID);
         if (result) {
-          const resize = await imageCompress(`${result.dataValues.url}`, parseInt(req.query.density, 10), parseInt(req.query.depth, 10));
+          const resize = await imageCompress(
+            `${result.dataValues.url}`,
+            parseInt(req.query.density, 10),
+            parseInt(req.query.depth, 10),
+          );
           res.sendFile(`${resize}`);
           setTimeout(() => {
             fs.unlinkSync(`uploads/${resize}`);
