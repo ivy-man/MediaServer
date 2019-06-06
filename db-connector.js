@@ -1,16 +1,19 @@
 const fastifyPlugin = require('fastify-plugin');
 const Sequelize = require('sequelize');
 
-async function dbConnector(fastify, options) {
+async function dbConnector(fastify) {
   try {
-    delete options.url;
-    const db = await new Sequelize('postgres', 'postgres', '1430666', {
-      host: 'localhost',
-      dialect: 'postgres',
-      define: {
-        timestamps: false,
+    const db = await new Sequelize(
+      process.env.DATABASE,
+      process.env.DATABASE_USER,
+      process.env.DATABASE_PASSWORD, {
+        host: 'localhost',
+        dialect: 'postgres',
+        define: {
+          timestamps: false,
+        },
       },
-    });
+    );
 
     fastify.decorate('sequelize', db);
   } catch (e) {

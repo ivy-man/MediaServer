@@ -4,15 +4,15 @@ module.exports = async (fastify, options) => {
 
   fastify.post('/upload/images', uploadHandlers.imageHandler);
 
-  fastify.delete('/delete/images', uploadHandlers.deleteHandler);
+  fastify.delete('/delete/image', uploadHandlers.deleteHandler);
 
-  fastify.post('/get/images', uploadHandlers.downloadHandler);
+  fastify.get('/get/images', uploadHandlers.downloadHandler);
 
-  fastify.post('/get/ownerResource/images', uploadHandlers.getResorceHandler);
+  fastify.get('/get/ownerResource/images', uploadHandlers.getResorceHandler);
 
-  fastify.post('/get/image/specifications', uploadHandlers.specificationsHandler);
+  fastify.get('/get/image/specifications', uploadHandlers.specificationsHandler);
 
-  fastify.post('/get/image/resize', uploadHandlers.imageResizeHandler);
+  fastify.put('/create/image/resize', uploadHandlers.imageResizeHandler);
 
-  fastify.post('/get/image/compress', uploadHandlers.imageCompressHandler);
+  fastify.put('/create/image/compress', uploadHandlers.imageCompressHandler);
 };

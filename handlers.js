@@ -115,7 +115,7 @@ module.exports = async (fastify) => {
   const uploadHandlers = {
     imageHandler: async (req, res) => {
       const input = {};
-      let files = [];
+      const files = [];
       const mp = req.multipart(handler, done, (err) => {
         if (err) throw new Error(err);
       });
@@ -123,29 +123,26 @@ module.exports = async (fastify) => {
 
       function done() {
         files.forEach((file, index) => {
-          console.log(file, index);
           if (!input.ownerResourceUUID) {
             fs.unlinkSync(`${file.imagePath}/${file.imageName}`);
             res.code(422).send('Unprocessable Entity!');
             return;
           }
 
-          fastify.sequelize.sync()
-              .then(() => Pic.create({
-                url: `${file.imagePath}/${file.imageName}`.substring(8),
-                name: file.imageName,
-                ownerResourceUUID: input.ownerResourceUUID,
-                imageID: uuidv1(),
-                createdAt: new Date(),
-              }))
-              .then(() => {
-                if (index + 1 === files.length)
-                  res.code(200).send({ message: 'file uploaded' });
-              })
-              .catch(() => {
-                fs.unlinkSync(`${file.imagePath}/${file.imageName}`);
-                res.code(500).send('Internal Server Error');
-              });
+          Pic.create({
+            url: `${file.imagePath}/${file.imageName}`.substring(8),
+            name: file.imageName,
+            ownerResourceUUID: input.ownerResourceUUID,
+            imageID: uuidv1(),
+            createdAt: new Date(),
+          })
+            .then(() => {
+              if (index + 1 === files.length) { res.code(200).send({ message: 'file uploaded' }); }
+            })
+            .catch(() => {
+              fs.unlinkSync(`${file.imagePath}/${file.imageName}`);
+              res.code(500).send('Internal Server Error');
+            });
         });
       }
 
@@ -167,7 +164,7 @@ module.exports = async (fastify) => {
             filename = `${Date.now()}-${filename}`;
           }
 
-          files.push({imageName: filename, imagePath: dir});
+          files.push({ imageName: filename, imagePath: dir });
           pump(file, fs.createWriteStream(`${dir}/${filename}`));
         });
       }
@@ -175,70 +172,58 @@ module.exports = async (fastify) => {
     deleteHandler: async (req, res) => {
       try {
         const { imageID } = req.body;
-        fastify.sequelize.sync()
-          .then(() => Pic.findByPk(imageID))
-          .then((result) => {
-            if (result) {
-              fs.unlinkSync(`uploads/${result.dataValues.url}`);
-              fastify.sequelize.sync()
-                .then(() => Pic.destroy({
-                  where: { imageID: req.body.imageID },
-                }))
-                .then(deleteResult => res.code(200).send(deleteResult));
-            } else {
-              res.code(403).send('not found');
-            }
-          });
+        const result = await Pic.findByPk(imageID);
+        if (result) {
+          fs.unlinkSync(`uploads/${result.dataValues.url}`);
+          fastify.sequelize.sync()
+            .then(() => Pic.destroy({
+              where: { imageID: req.body.imageID },
+            }))
+            .then(deleteResult => res.code(200).send(deleteResult));
+        } else {
+          res.code(403).send('not found');
+        }
       } catch (e) {
         res.code(500).send('internal server error');
       }
     },
     downloadHandler: async (req, res) => {
       try {
-        fastify.sequelize.sync()
-          .then(() => Pic.findOne({
-            where: { imageID: req.body.imageID },
-          }))
-          .then((result) => {
-            if (result) {
-              res.sendFile(result.dataValues.url);
-            } else {
-              res.code(403).send('not found');
-            }
-          });
+        const result = await Pic.findOne({
+          where: { imageID: req.query.imageID },
+        });
+        if (result) {
+          res.sendFile(result.dataValues.url);
+        } else {
+          res.code(403).send('not found');
+        }
       } catch (e) {
         res.code(500).send('internal server error');
       }
     },
     getResorceHandler: async (req, res) => {
       try {
-        fastify.sequelize.sync()
-          .then(() => Pic.findAll({
-            where: { ownerResourceUUID: req.body.ownerResourceUUID },
-          }))
-          .then((result) => {
-            if (result) {
-              res.code(200).send(result);
-            } else {
-              res.code(403).send('not found');
-            }
-          });
+        const result = await Pic.findAll({
+          where: { ownerResourceUUID: req.query.ownerResourceUUID },
+        });
+        if (result) {
+          res.code(200).send(result);
+        } else {
+          res.code(403).send('not found');
+        }
       } catch (e) {
         res.code(500).send('internal server error');
       }
     },
     specificationsHandler: async (req, res) => {
       try {
-        const { imageID } = req.body;
-        fastify.sequelize.sync()
-          .then(() => Pic.findByPk(imageID))
-          .then((result) => {
-            if (result) {
-              res.code(200).send(result.dataValues);
-            } else {
-              res.code(403).send('not found');
-            }
-          });
+        const { imageID } = req.query;
+        const result = await Pic.findByPk(imageID);
+        if (result) {
+          res.code(200).send(result.dataValues);
+        } else {
+          res.code(403).send('not found');
+        }
       } catch (e) {
         res.code(500).send('internal server error');
       }
@@ -246,20 +231,17 @@ module.exports = async (fastify) => {
     imageResizeHandler: async (req, res) => {
       try {
         const { imageID } = req.query;
-        fastify.sequelize.sync()
-          .then(() => Pic.findByPk(imageID))
-          .then(async (result) => {
-            if (result) {
-              const splitSize = (req.query.size).split('*');
-              const resize = await newImageResize(`${result.dataValues.url}`, parseInt(splitSize[0], 10), parseInt(splitSize[1], 10));
-              res.sendFile(`${resize}`);
-              setTimeout(() => {
-                fs.unlinkSync(`uploads/${resize}`);
-              }, 2000);
-            } else {
-              res.code(403).send('not found');
-            }
-          });
+        const result = await Pic.findByPk(imageID);
+        if (result) {
+          const splitSize = (req.query.size).split('*');
+          const resize = await newImageResize(`${result.dataValues.url}`, parseInt(splitSize[0], 10), parseInt(splitSize[1], 10));
+          res.sendFile(`${resize}`);
+          setTimeout(() => {
+            fs.unlinkSync(`uploads/${resize}`);
+          }, 2000);
+        } else {
+          res.code(403).send('not found');
+        }
       } catch (e) {
         res.code(500).send('internal server error');
       }
@@ -267,19 +249,16 @@ module.exports = async (fastify) => {
     imageCompressHandler: async (req, res) => {
       try {
         const { imageID } = req.query;
-        fastify.sequelize.sync()
-          .then(() => Pic.findByPk(imageID))
-          .then(async (result) => {
-            if (result) {
-              const resize = await imageCompress(`${result.dataValues.url}`, parseInt(req.query.density, 10), parseInt(req.query.depth, 10));
-              res.sendFile(`${resize}`);
-              setTimeout(() => {
-                fs.unlinkSync(`uploads/${resize}`);
-              }, 2000);
-            } else {
-              res.code(403).send('not found');
-            }
-          });
+        const result = Pic.findByPk(imageID);
+        if (result) {
+          const resize = await imageCompress(`${result.dataValues.url}`, parseInt(req.query.density, 10), parseInt(req.query.depth, 10));
+          res.sendFile(`${resize}`);
+          setTimeout(() => {
+            fs.unlinkSync(`uploads/${resize}`);
+          }, 2000);
+        } else {
+          res.code(403).send('not found');
+        }
       } catch (e) {
         res.code(500).send('internal server error');
       }

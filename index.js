@@ -7,9 +7,7 @@ const config = require('./configs');
 
 require('dotenv').config();
 
-fastify.register(require('./db-connector'), {
-  url: 'postgres://postgres:1430666@localhost:5432/postgres',
-});
+fastify.register(require('./db-connector'));
 
 fastify.register(rateLimit, config.rateLimits);
 
