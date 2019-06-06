@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b5538b22-56d1-483b-9401-e6408c0365dd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c078ff64-3198-4716-aea8-75e90f56945a/storage_v2/_src_/database/postgres.edMnLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c078ff64-3198-4716-aea8-75e90f56945a/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers.js" beforeDir="false" afterPath="$PROJECT_DIR$/handlers.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,15 +52,6 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
       </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="postgres@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="postgres: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
     </expand>
     <select />
   </component>
@@ -80,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/handlers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="95" column="33" selection-start-line="95" selection-start-column="31" selection-end-line="95" selection-end-column="33" />
+            <state relative-caret-position="360">
+              <caret line="133" column="33" selection-start-line="133" selection-start-column="33" selection-end-line="133" selection-end-column="33" />
               <folding>
                 <element signature="n#!!block;n#getDirImage#0" />
                 <element signature="e#476#516#0" />
@@ -95,29 +84,8 @@
                 <element signature="e#1362#1942#0" />
                 <element signature="e#1914#1938#0" />
                 <element signature="e#2892#2940#0" />
-                <element signature="e#3516#3591#0" />
-                <element signature="e#3616#3742#0" />
-                <element signature="e#4231#4354#0" />
-                <element signature="e#4546#5226#0" />
-                <element signature="e#5063#5125#0" />
-                <element signature="e#5158#5220#0" />
-                <element signature="e#5269#5705#0" />
-                <element signature="e#5281#5626#0" />
-                <element signature="e#5350#5413#0" />
-                <element signature="e#5444#5616#0" />
-                <element signature="e#5470#5536#0" />
-                <element signature="e#5542#5604#0" />
-                <element signature="e#5637#5699#0" />
-                <element signature="e#5750#6197#0" />
-                <element signature="e#5762#6118#0" />
-                <element signature="e#5831#5914#0" />
-                <element signature="e#5945#6108#0" />
-                <element signature="e#5971#6028#0" />
-                <element signature="e#6034#6096#0" />
-                <element signature="e#6129#6191#0" />
-                <element signature="e#6246#6684#0" />
-                <element signature="e#6258#6605#0" />
-                <element signature="e#6327#6390#0" />
+                <element signature="e#6658#7079#0" />
+                <element signature="e#6670#7000#0" />
                 <element signature="e#6421#6595#0" />
                 <element signature="e#6447#6515#0" />
                 <element signature="e#6521#6583#0" />
@@ -142,6 +110,15 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="16" selection-start-column="16" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -160,10 +137,10 @@
       <find>FastifyReply</find>
       <find>sendFile</find>
       <find>tod</find>
-      <find>todo</find>
       <find>imageCompress</find>
       <find>req</find>
       <find>imageName</find>
+      <find>todo</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -180,6 +157,7 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console_1.sql" />
         <option value="$PROJECT_DIR$/routes.js" />
         <option value="$PROJECT_DIR$/handlers.js" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console.sql" />
       </list>
     </option>
   </component>
@@ -255,9 +233,10 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1559310726656" />
-    <property name="database.console.LAST_STATE" value="false" />
+    <property name="database.console.LAST_STATE" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -295,18 +274,27 @@
       <workItem from="1559210267900" duration="1591000" />
       <workItem from="1559215924252" duration="10426000" />
       <workItem from="1559289100832" duration="1124000" />
-      <workItem from="1559800022701" duration="14480000" />
+      <workItem from="1559800022701" duration="16633000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28313000" />
+    <option name="totallyTimeSpent" value="30466000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18982808" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23853868" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -316,30 +304,30 @@
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3293011" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3293011" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.27284947" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.26344085" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Database Console" order="11" weight="0.32952693" />
+      <window_info active="true" anchor="bottom" id="Database Console" order="11" visible="true" weight="0.3293011" />
       <window_info anchor="bottom" id="TypeScript" order="12" />
-      <window_info anchor="bottom" id="SQL Generator" order="13" weight="0.32952693" />
+      <window_info anchor="bottom" id="SQL Generator" order="13" show_stripe_button="false" weight="0.3293011" />
       <window_info anchor="bottom" id="Messages" order="14" />
-      <window_info anchor="right" x="0" y="0" width="314" height="676" id="Documentation" side_tool="true" weight="0.3295129" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Remote Host" order="6" weight="0.3295129" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-      <window_info anchor="right" id="Database" order="8" weight="0.3295129" />
+      <window_info anchor="right" x="0" y="0" width="314" height="676" id="Documentation" order="0" side_tool="true" weight="0.3295129" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Theme Preview" order="6" />
+      <window_info anchor="right" id="Remote Host" order="7" weight="0.3295129" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info anchor="right" id="Maven Projects" order="9" />
+      <window_info anchor="right" id="Database" order="10" visible="true" weight="0.3295129" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -378,7 +366,6 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console.sql" />
     <entry file="file://$PROJECT_DIR$/configs.js" />
     <entry file="file://$PROJECT_DIR$/businessHdates/schemas.js">
       <provider selected="true" editor-type-id="text-editor" />
@@ -499,19 +486,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state projectRestartId="4624e8b0-93f4-473c-97d2-9a85ff13f75d">
-          <filtering>
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/handlers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="95" column="33" selection-start-line="95" selection-start-column="31" selection-end-line="95" selection-end-column="33" />
+        <state relative-caret-position="360">
+          <caret line="133" column="33" selection-start-line="133" selection-start-column="33" selection-end-line="133" selection-end-column="33" />
           <folding>
             <element signature="n#!!block;n#getDirImage#0" />
             <element signature="e#476#516#0" />
@@ -522,29 +500,8 @@
             <element signature="e#1362#1942#0" />
             <element signature="e#1914#1938#0" />
             <element signature="e#2892#2940#0" />
-            <element signature="e#3516#3591#0" />
-            <element signature="e#3616#3742#0" />
-            <element signature="e#4231#4354#0" />
-            <element signature="e#4546#5226#0" />
-            <element signature="e#5063#5125#0" />
-            <element signature="e#5158#5220#0" />
-            <element signature="e#5269#5705#0" />
-            <element signature="e#5281#5626#0" />
-            <element signature="e#5350#5413#0" />
-            <element signature="e#5444#5616#0" />
-            <element signature="e#5470#5536#0" />
-            <element signature="e#5542#5604#0" />
-            <element signature="e#5637#5699#0" />
-            <element signature="e#5750#6197#0" />
-            <element signature="e#5762#6118#0" />
-            <element signature="e#5831#5914#0" />
-            <element signature="e#5945#6108#0" />
-            <element signature="e#5971#6028#0" />
-            <element signature="e#6034#6096#0" />
-            <element signature="e#6129#6191#0" />
-            <element signature="e#6246#6684#0" />
-            <element signature="e#6258#6605#0" />
-            <element signature="e#6327#6390#0" />
+            <element signature="e#6658#7079#0" />
+            <element signature="e#6670#7000#0" />
             <element signature="e#6421#6595#0" />
             <element signature="e#6447#6515#0" />
             <element signature="e#6521#6583#0" />
@@ -554,6 +511,22 @@
             <element signature="e#7367#7429#0" />
             <element signature="e#7462#7524#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="4624e8b0-93f4-473c-97d2-9a85ff13f75d">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="16" selection-start-column="16" selection-end-column="16" />
         </state>
       </provider>
     </entry>

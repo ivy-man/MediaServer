@@ -115,34 +115,38 @@ module.exports = async (fastify) => {
   const uploadHandlers = {
     imageHandler: async (req, res) => {
       const input = {};
-      let imagePath;
-      let imageName;
+      let files = [];
       const mp = req.multipart(handler, done, (err) => {
         if (err) throw new Error(err);
       });
       if (!mp) res.code(422).send('No file to upload!');
 
       function done() {
-        if (!input.ownerResourceUUID) {
-          fs.unlinkSync(`${imagePath}/${imageName}`);
-          res.code(422).send('Unprocessable Entity!');
-          return;
-        }
-        fastify.sequelize.sync()
-          .then(() => Pic.create({
-            url: `${imagePath}/${imageName}`.substring(8),
-            name: imageName,
-            ownerResourceUUID: input.ownerResourceUUID,
-            imageID: uuidv1(),
-            createdAt: new Date(),
-          }))
-          .then(() => {
-            res.code(200).send({ message: 'file uploaded' });
-          })
-          .catch(() => {
-            fs.unlinkSync(`${imagePath}/${imageName}`);
-            res.code(500).send('Internal Server Error');
-          });
+        files.forEach((file, index) => {
+          console.log(file, index);
+          if (!input.ownerResourceUUID) {
+            fs.unlinkSync(`${file.imagePath}/${file.imageName}`);
+            res.code(422).send('Unprocessable Entity!');
+            return;
+          }
+
+          fastify.sequelize.sync()
+              .then(() => Pic.create({
+                url: `${file.imagePath}/${file.imageName}`.substring(8),
+                name: file.imageName,
+                ownerResourceUUID: input.ownerResourceUUID,
+                imageID: uuidv1(),
+                createdAt: new Date(),
+              }))
+              .then(() => {
+                if (index + 1 === files.length)
+                  res.code(200).send({ message: 'file uploaded' });
+              })
+              .catch(() => {
+                fs.unlinkSync(`${file.imagePath}/${file.imageName}`);
+                res.code(500).send('Internal Server Error');
+              });
+        });
       }
 
       mp.on('field', (key, value) => {
@@ -162,8 +166,8 @@ module.exports = async (fastify) => {
             // eslint-disable-next-line no-param-reassign
             filename = `${Date.now()}-${filename}`;
           }
-          imagePath = dir;
-          imageName = filename;
+
+          files.push({imageName: filename, imagePath: dir});
           pump(file, fs.createWriteStream(`${dir}/${filename}`));
         });
       }
