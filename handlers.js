@@ -20,59 +20,66 @@ module.exports = async (fastify) => {
 
   const uploadHandlers = {
     imageHandler: async (req, res) => {
-      const input = {};
-      const files = [];
-      const mp = req.multipart(handler, done, (err) => {
-        if (err) throw new Error(err);
-      });
-      if (!mp) res.code(422).send('No file to upload!');
+      try {
+        const input = {};
+        const files = [];
+        const mp = req.multipart(handler, done, (err) => {
+          if (err) throw new Error(err);
+        });
+        if (!mp) res.code(422).send('No file to upload!');
 
-      function done() {
-        files.forEach((file, index) => {
-          if (!input.ownerResourceUUID) {
-            fs.unlinkSync(`${file.imagePath}/${file.imageName}`);
-            res.code(422).send('Unprocessable Entity!');
-            return;
-          }
+        function done() {
+          files.forEach(async (file, index) => {
+            try {
+              if (!input.ownerResourceUUID) {
+                fs.unlinkSync(`${file.imagePath}/${file.imageName}`);
+                res.code(422).send('Unprocessable Entity!');
+                return;
+              }
 
-          Pic.create({
-            url: `${file.imagePath}/${file.imageName}`.substring(8),
-            name: file.imageName,
-            ownerResourceUUID: input.ownerResourceUUID,
-            imageID: uuidv1(),
-            createdAt: new Date(),
-          })
-            .then(() => {
+              await fastify.sequelize.sync();
+              await Pic.create({
+                url: `${file.imagePath}/${file.imageName}`.substring(8),
+                name: file.imageName,
+                ownerResourceUUID: input.ownerResourceUUID,
+                imageID: uuidv1(),
+                createdAt: new Date(),
+              });
+
               if (index + 1 === files.length) { res.code(200).send({ message: 'file uploaded' }); }
-            })
-            .catch(() => {
+            } catch (e) {
+              console.error(e);
               fs.unlinkSync(`${file.imagePath}/${file.imageName}`);
               res.code(500).send('Internal Server Error');
-            });
+            }
+          });
+        }
+
+        mp.on('field', (key, value) => {
+          input[key] = value;
         });
-      }
 
-      mp.on('field', (key, value) => {
-        input[key] = value;
-      });
+        // eslint-disable-next-line no-unused-vars
+        function handler(field, file, filename, encoding, mimetype) {
+          // file.on('limit', () => console.log('File size limit reached'));
 
-      // eslint-disable-next-line no-unused-vars
-      function handler(field, file, filename, encoding, mimetype) {
-        // file.on('limit', () => console.log('File size limit reached'));
+          const dir = getDirImage();
+          mkdirp(dir, (err) => {
+            if (err) throw new Error(err);
 
-        const dir = getDirImage();
-        mkdirp(dir, (err) => {
-          if (err) throw new Error(err);
+            const filePath = `${getDirImage()}/${filename}`;
+            if (fs.existsSync(filePath)) {
+              // eslint-disable-next-line no-param-reassign
+              filename = `${Date.now()}-${filename}`;
+            }
 
-          const filePath = `${getDirImage()}/${filename}`;
-          if (fs.existsSync(filePath)) {
-            // eslint-disable-next-line no-param-reassign
-            filename = `${Date.now()}-${filename}`;
-          }
-
-          files.push({ imageName: filename, imagePath: dir });
-          pump(file, fs.createWriteStream(`${dir}/${filename}`));
-        });
+            files.push({ imageName: filename, imagePath: dir });
+            pump(file, fs.createWriteStream(`${dir}/${filename}`));
+          });
+        }
+      } catch (e) {
+        console.error(e);
+        res.code(500).send('internal server error');
       }
     },
     deleteHandler: async (req, res) => {

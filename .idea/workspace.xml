@@ -63,54 +63,50 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="16" column="35" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="35" />
+            <state relative-caret-position="80">
+              <caret line="4" column="55" selection-start-line="4" selection-start-column="55" selection-end-line="4" selection-end-column="55" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/handlers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="133" column="33" selection-start-line="133" selection-start-column="33" selection-end-line="133" selection-end-column="33" />
+            <state relative-caret-position="363">
+              <caret line="45" column="16" lean-forward="true" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
               <folding>
                 <element signature="n#!!block;n#getDirImage#0" />
-                <element signature="e#476#516#0" />
-                <element signature="e#780#815#0" />
-                <element signature="e#947#973#0" />
-                <element signature="e#1176#1208#0" />
-                <element signature="n#!!block;n#newImageResize#0" />
-                <element signature="e#1362#1942#0" />
-                <element signature="e#1914#1938#0" />
-                <element signature="e#2892#2940#0" />
-                <element signature="e#6658#7079#0" />
-                <element signature="e#6670#7000#0" />
-                <element signature="e#6421#6595#0" />
-                <element signature="e#6447#6515#0" />
-                <element signature="e#6521#6583#0" />
-                <element signature="e#6616#6678#0" />
-                <element signature="e#6730#7530#0" />
-                <element signature="e#6811#6875#0" />
-                <element signature="e#7367#7429#0" />
-                <element signature="e#7462#7524#0" />
+                <element signature="e#1015#1179#0" />
+                <element signature="e#1911#2468#0" />
+                <element signature="e#2495#3074#0" />
+                <element signature="e#3542#3896#0" />
+                <element signature="e#3554#3817#0" />
+                <element signature="e#3597#3677#0" />
+                <element signature="e#3700#3749#0" />
+                <element signature="e#3755#3809#0" />
+                <element signature="e#3828#3890#0" />
+                <element signature="e#3945#4277#0" />
+                <element signature="e#3957#4198#0" />
+                <element signature="e#4070#4130#0" />
+                <element signature="e#4136#4190#0" />
+                <element signature="e#4209#4271#0" />
+                <element signature="e#4323#5351#0" />
+                <element signature="e#5399#6337#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state projectRestartId="4624e8b0-93f4-473c-97d2-9a85ff13f75d">
-              <filtering>
-                <filter text="" />
-              </filtering>
+        <entry file="file://$PROJECT_DIR$/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="400">
+              <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state>
@@ -156,8 +152,8 @@
         <option value="$PROJECT_DIR$/db-connector.js" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console_1.sql" />
         <option value="$PROJECT_DIR$/routes.js" />
-        <option value="$PROJECT_DIR$/handlers.js" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console.sql" />
+        <option value="$PROJECT_DIR$/handlers.js" />
       </list>
     </option>
   </component>
@@ -173,7 +169,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -192,34 +187,11 @@
               <item name="uploads" type="462c0819:PsiDirectoryNode" />
               <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="MediaServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MediaServer" type="462c0819:PsiDirectoryNode" />
-              <item name="uploads" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-              <item name="2019" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MediaServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MediaServer" type="462c0819:PsiDirectoryNode" />
-              <item name="uploads" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-              <item name="2019" type="462c0819:PsiDirectoryNode" />
-              <item name="6" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MediaServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MediaServer" type="462c0819:PsiDirectoryNode" />
-              <item name="uploads" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-              <item name="2019" type="462c0819:PsiDirectoryNode" />
-              <item name="6" type="462c0819:PsiDirectoryNode" />
-              <item name="6" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -279,7 +251,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30466000" />
+    <option name="totallyTimeSpent" value="32744000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -294,7 +266,7 @@
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23853868" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12893982" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -311,9 +283,9 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3293011" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.26344085" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.19489247" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Database Console" order="11" visible="true" weight="0.3293011" />
+      <window_info anchor="bottom" id="Database Console" order="11" weight="0.3293011" />
       <window_info anchor="bottom" id="TypeScript" order="12" />
       <window_info anchor="bottom" id="SQL Generator" order="13" show_stripe_button="false" weight="0.3293011" />
       <window_info anchor="bottom" id="Messages" order="14" />
@@ -327,7 +299,7 @@
       <window_info anchor="right" id="Remote Host" order="7" weight="0.3295129" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info anchor="right" id="Maven Projects" order="9" />
-      <window_info anchor="right" id="Database" order="10" visible="true" weight="0.3295129" />
+      <window_info anchor="right" id="Database" order="10" visible="true" weight="0.2012894" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -407,13 +379,6 @@
     </entry>
     <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics.sql" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console_1.sql" />
-    <entry file="file://$PROJECT_DIR$/model/picModel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="41" lean-forward="true" selection-start-line="7" selection-start-column="41" selection-end-line="8" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db-connector.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -435,13 +400,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="3" lean-forward="true" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/sharp/lib/output.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="436">
@@ -449,9 +407,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uploads/images/2019/6/6/Jellyfish-200.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/uploads/images/2019/6/6/Jellyfish-200.jpg" />
     <entry file="file://$PROJECT_DIR$/node_modules/fastify-static/index.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -479,54 +435,121 @@
     <entry file="file://$PROJECT_DIR$/uploads/images/2019/6/6/Jellyfish.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes.js">
+    <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="35" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="35" />
+        <state>
+          <caret column="16" selection-start-column="16" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/handlers.js">
+    <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="133" column="33" selection-start-line="133" selection-start-column="33" selection-end-line="133" selection-end-column="33" />
-          <folding>
-            <element signature="n#!!block;n#getDirImage#0" />
-            <element signature="e#476#516#0" />
-            <element signature="e#780#815#0" />
-            <element signature="e#947#973#0" />
-            <element signature="e#1176#1208#0" />
-            <element signature="n#!!block;n#newImageResize#0" />
-            <element signature="e#1362#1942#0" />
-            <element signature="e#1914#1938#0" />
-            <element signature="e#2892#2940#0" />
-            <element signature="e#6658#7079#0" />
-            <element signature="e#6670#7000#0" />
-            <element signature="e#6421#6595#0" />
-            <element signature="e#6447#6515#0" />
-            <element signature="e#6521#6583#0" />
-            <element signature="e#6616#6678#0" />
-            <element signature="e#6730#7530#0" />
-            <element signature="e#6811#6875#0" />
-            <element signature="e#7367#7429#0" />
-            <element signature="e#7462#7524#0" />
-          </folding>
+        <state relative-caret-position="400">
+          <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="4" column="55" selection-start-line="4" selection-start-column="55" selection-end-line="4" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/picModel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
     <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state projectRestartId="4624e8b0-93f4-473c-97d2-9a85ff13f75d">
+        <state projectRestartId="3a1f61b2-967a-424e-9825-aea37c50d051">
           <filtering>
             <filter text="" />
           </filtering>
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c078ff64-3198-4716-aea8-75e90f56945a/console.sql">
+    <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="3a1f61b2-967a-424e-9825-aea37c50d051">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="3a1f61b2-967a-424e-9825-aea37c50d051">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="3a1f61b2-967a-424e-9825-aea37c50d051">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="3a1f61b2-967a-424e-9825-aea37c50d051">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="3a1f61b2-967a-424e-9825-aea37c50d051">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://c078ff64-3198-4716-aea8-75e90f56945a/database/postgres/schema/public/table/pics">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="3a1f61b2-967a-424e-9825-aea37c50d051">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/handlers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="16" selection-start-column="16" selection-end-column="16" />
+        <state relative-caret-position="363">
+          <caret line="45" column="16" lean-forward="true" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
+          <folding>
+            <element signature="n#!!block;n#getDirImage#0" />
+            <element signature="e#1015#1179#0" />
+            <element signature="e#1911#2468#0" />
+            <element signature="e#2495#3074#0" />
+            <element signature="e#3542#3896#0" />
+            <element signature="e#3554#3817#0" />
+            <element signature="e#3597#3677#0" />
+            <element signature="e#3700#3749#0" />
+            <element signature="e#3755#3809#0" />
+            <element signature="e#3828#3890#0" />
+            <element signature="e#3945#4277#0" />
+            <element signature="e#3957#4198#0" />
+            <element signature="e#4070#4130#0" />
+            <element signature="e#4136#4190#0" />
+            <element signature="e#4209#4271#0" />
+            <element signature="e#4323#5351#0" />
+            <element signature="e#5399#6337#0" />
+          </folding>
         </state>
       </provider>
     </entry>
