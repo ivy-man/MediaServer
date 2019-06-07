@@ -15,100 +15,6 @@ function getDirImage() {
   return `uploads/images/${year}/${month}/${day}`;
 }
 
-// function imageResize(dir, filename) {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       const imageInfo = path.parse(`${dir}/${filename}`);
-//       const filePath = (`${dir}/${filename}`);
-//       const addressImages = {};
-//       addressImages.original = `${dir}/${filename}`;
-
-//       const resize = (size) => {
-//         const imageName = `${imageInfo.name}-${size}${imageInfo.ext}`;
-//         addressImages[size] = `${dir}/${imageName}`;
-
-//         sharp(filePath)
-//           .resize(size, null)
-//           .toFile(`${dir}/${imageName}`)
-//           .catch((e) => {
-//             reject(e);
-//           });
-//       };
-
-//       [1080, 720, 480].map(resize);
-
-//       resolve(addressImages);
-//     } catch (e) {
-//       reject(e);
-//     }
-//   });
-// }
-
-function newImageResize(dir, width, height) {
-  return new Promise((resolve, reject) => {
-    try {
-      const imageInfo = path.parse(`${dir}`);
-      const filePath = (`uploads/${dir}`);
-      resolve(doImageResize(({
-        imageInfo, filePath, width, height,
-      })));
-    } catch (e) {
-      reject(e);
-    }
-  });
-}
-
-function doImageResize({
-  imageInfo, filePath, width, height,
-}) {
-  return new Promise((resolve, reject) => {
-    const imageName = `${imageInfo.name}-${width}${imageInfo.ext}`;
-    const imageAddress = `${imageInfo.dir}/${imageName}`;
-    const image = sharp(filePath);
-    image
-      .metadata()
-      .then((metadata) => {
-        const ratio = metadata.width / metadata.height;
-        if (height) width = height ? Math.floor(ratio * height) : width;
-        else height = width ? Math.floor(ratio * width) : height;
-
-        image.resize(width, height)
-          .toFile(`uploads/${imageAddress}`)
-          .then(() => { resolve(imageAddress); })
-          .catch((e) => { throw e; });
-      })
-      .catch((e) => { reject(e); });
-  });
-}
-
-function imageCompress(dir, den, dep) {
-  return new Promise((resolve, reject) => {
-    try {
-      const imageInfo = path.parse(`${dir}`);
-      const filePath = (`uploads/${dir}`);
-      resolve(doImageCompress({
-        imageInfo, filePath, den, dep,
-      }));
-    } catch (e) {
-      reject(e);
-    }
-  });
-}
-
-function doImageCompress({
-  imageInfo, filePath, den, dep,
-}) {
-  return new Promise((resolve, reject) => {
-    const imageName = `${imageInfo.name}-${den}-${dep}.WebP`;
-    const imageAddress = `${imageInfo.dir}/${imageName}`;
-    sharp(filePath, { density: 20 })
-      .webp({ nearLossless: true })
-      .toFile(`uploads/${imageAddress}`)
-      .then(() => { resolve(imageAddress); })
-      .catch((e) => { reject(e); });
-  });
-}
-
 module.exports = async (fastify) => {
   const Pic = picModel.init(fastify.sequelize);
 
@@ -152,7 +58,7 @@ module.exports = async (fastify) => {
 
       // eslint-disable-next-line no-unused-vars
       function handler(field, file, filename, encoding, mimetype) {
-        file.on('limit', () => console.log('File size limit reached'));
+        // file.on('limit', () => console.log('File size limit reached'));
 
         const dir = getDirImage();
         mkdirp(dir, (err) => {
@@ -175,11 +81,14 @@ module.exports = async (fastify) => {
         const result = await Pic.findByPk(imageID);
         if (result) {
           fs.unlinkSync(`uploads/${result.dataValues.url}`);
-          fastify.sequelize.sync()
-            .then(() => Pic.destroy({
-              where: { imageID: req.body.imageID },
-            }))
-            .then(deleteResult => res.code(200).send(deleteResult));
+          const deleteResult = Pic.destroy({
+            where: { imageID: req.body.imageID },
+          });
+          if (deleteResult) {
+            res.code(200).send(deleteResult);
+          } else {
+            res.code(408).send('An error has occurred');
+          }
         } else {
           res.code(403).send('not found');
         }
@@ -230,14 +139,24 @@ module.exports = async (fastify) => {
     },
     imageResizeHandler: async (req, res) => {
       try {
-        const { imageID } = req.query;
-        const result = await Pic.findByPk(imageID);
+        const result = await Pic.findByPk(req.query.imageID);
         if (result) {
           const splitSize = (req.query.size).split('*');
-          const resize = await newImageResize(`${result.dataValues.url}`, parseInt(splitSize[0], 10), parseInt(splitSize[1], 10));
-          res.sendFile(`${resize}`);
+          const imageInfo = path.parse(`${result.dataValues.url}`);
+          const imageName = `${imageInfo.name}-q${splitSize[0]}*${splitSize[1]}${imageInfo.ext}`;
+          const imageAddress = `${imageInfo.dir}/${imageName}`;
+
+          const resize = await sharp(`uploads/${result.dataValues.url}`)
+            .resize(parseInt(splitSize[0], 10), null)
+            .resize(null, parseInt(splitSize[1], 10))
+            .toFile(`uploads/${imageAddress}`);
+          if (resize) {
+            res.sendFile(`${imageAddress}`);
+          } else {
+            res.code(408).send('An error has occurred');
+          }
           setTimeout(() => {
-            fs.unlinkSync(`uploads/${resize}`);
+            // fs.unlinkSync(`uploads/${resize}`);
           }, 2000);
         } else {
           res.code(403).send('not found');
@@ -248,17 +167,23 @@ module.exports = async (fastify) => {
     },
     imageCompressHandler: async (req, res) => {
       try {
-        const { imageID } = req.query;
-        const result = Pic.findByPk(imageID);
+        const { imageID, quality } = req.query;
+        const result = await Pic.findByPk(imageID);
         if (result) {
-          const resize = await imageCompress(
-            `${result.dataValues.url}`,
-            parseInt(req.query.density, 10),
-            parseInt(req.query.depth, 10),
-          );
-          res.sendFile(`${resize}`);
+          const imageInfo = path.parse(`${result.dataValues.url}`);
+          const imageName = `${imageInfo.name}-q${quality}${imageInfo.ext}`;
+          const imageAddress = `${imageInfo.dir}/${imageName}`;
+
+          const compress = await sharp(`uploads/${result.dataValues.url}`)
+            .jpeg({ quality: parseInt(quality, 10) })
+            .toFile(`uploads/${imageAddress}`);
+          if (compress) {
+            res.sendFile(`${imageAddress}`);
+          } else {
+            res.code(408).send('An error has occurred');
+          }
           setTimeout(() => {
-            fs.unlinkSync(`uploads/${resize}`);
+            // fs.unlinkSync(`uploads/${resize}`);
           }, 2000);
         } else {
           res.code(403).send('not found');
