@@ -77,15 +77,14 @@ module.exports = async (fastify) => {
     },
     deleteHandler: async (req, res) => {
       try {
-        const { imageID } = req.body;
-        const result = await Pic.findByPk(imageID);
+        const result = await Pic.findByPk(req.body.imageID);
         if (result) {
           fs.unlinkSync(`uploads/${result.dataValues.url}`);
           const deleteResult = Pic.destroy({
             where: { imageID: req.body.imageID },
           });
           if (deleteResult) {
-            res.code(200).send(deleteResult);
+            res.code(200).send('ok');
           } else {
             res.code(408).send('An error has occurred');
           }
@@ -110,7 +109,7 @@ module.exports = async (fastify) => {
         res.code(500).send('internal server error');
       }
     },
-    getResorceHandler: async (req, res) => {
+    getResourceHandler: async (req, res) => {
       try {
         const result = await Pic.findAll({
           where: { ownerResourceUUID: req.query.ownerResourceUUID },

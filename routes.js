@@ -8,7 +8,7 @@ module.exports = async (fastify, options) => {
 
   fastify.get('/images', uploadHandlers.downloadHandler);
 
-  fastify.get('/ownerResource/images', uploadHandlers.getResorceHandler);
+  fastify.get('/ownerResource/images', uploadHandlers.getResourceHandler);
 
   fastify.get('/image/specifications', uploadHandlers.specificationsHandler);
 
