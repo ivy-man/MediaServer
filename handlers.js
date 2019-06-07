@@ -20,7 +20,7 @@ module.exports = async (fastify) => {
 
   const uploadHandlers = {
     /**
-     * Adds two numbers.
+     * Upload images.
      * @param {XMLHttpRequest} req Http request.
      * @param {XMLHttpRequest.response} res Http response.
      * @return {XMLHttpRequest.responseText} The result of upload images.
