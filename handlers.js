@@ -19,16 +19,27 @@ module.exports = async (fastify) => {
   const Pic = picModel.init(fastify.sequelize);
 
   const uploadHandlers = {
+    /**
+     * Adds two numbers.
+     * @param {XMLHttpRequest} req Http request.
+     * @param {XMLHttpRequest.response} res Http response.
+     * @return {XMLHttpRequest.responseText} The result of upload images.
+     */
     imageHandler: async (req, res) => {
       try {
         const input = {};
         const files = [];
         const mp = req.multipart(handler, done, (err) => {
-          if (err) throw new Error(err);
+          if (err) console.log(err);
         });
         if (!mp) res.code(422).send('No file to upload!');
 
-        function done() {
+        mp.on('filesLimit', () => {
+          res.code(422).send('Max number of file fields reached');
+        });
+
+        function done(err) {
+          if (err) console.log(err);
           files.forEach(async (file, index) => {
             try {
               if (!input.ownerResourceUUID) {
@@ -61,8 +72,7 @@ module.exports = async (fastify) => {
 
         // eslint-disable-next-line no-unused-vars
         function handler(field, file, filename, encoding, mimetype) {
-          // file.on('limit', () => console.log('File size limit reached'));
-
+          file.on('limit', () => res.code(422).send('For multipart forms, the max file size reached'));
           const dir = getDirImage();
           mkdirp(dir, (err) => {
             if (err) throw new Error(err);
